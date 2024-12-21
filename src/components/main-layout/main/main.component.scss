@@ -1,0 +1,94 @@
+$background-color: #ffffff;      // Example color variable
+// $background-color: #ff6b01;      // Example color variable
+
+
+
+#main-container {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 70px 1fr 50px;
+    grid-template-rows: 50px calc(100vh - 50px);
+    grid-template-areas: 
+        "sidebar header header"
+        "sidebar main footer";
+    background-color: $background-color;
+}
+
+header {
+    max-height: 50px;
+    grid-area: header;
+    position: sticky;
+    top: 0;
+    background-color: $background-color;
+}
+
+aside {
+    grid-area: sidebar;
+    position: sticky;
+    top: 50px;
+    overflow: auto; 
+    border-top-right-radius: .5cm;
+    background-color: #22004f;
+}
+
+aside:hover {
+    width: 100px; /* Hover width */
+    z-index: 10;
+}
+
+
+
+main {
+    grid-area: main;
+    overflow: hidden;
+    border-top-right-radius: .5cm;
+    background-color: #ffffff;
+}   
+
+
+
+
+footer {
+    grid-area: footer;
+    display: flex;
+    flex-direction: column;
+    background-color: $background-color;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Media Query for Responsiveness */
+@media (max-width: 768px) {
+    #main-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: 
+            "header"
+            "main"
+            "footer";
+    }
+
+    aside {
+        grid-area: header; /* Move sidebar to the top */
+        width: 100%; /* Full width on small screens */
+        height: auto; /* Auto height */
+        position: static; /* Remove sticky positioning */
+    }
+
+    main {
+        grid-area: main;
+    }
+
+    footer {
+        grid-area: footer;
+    }
+}

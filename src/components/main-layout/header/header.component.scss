@@ -1,0 +1,71 @@
+// Custom Variables
+
+$brand-image-max-height: 40px;
+
+// Navbar Styling
+.navbar {
+    max-height: 50px;
+    padding: 0.5rem 1rem;
+
+    .navbar-toggler {
+        border: none;
+        background: none;
+        &:focus {
+            box-shadow: none;
+        }
+
+        i {
+            color: #6c757d;
+        }
+
+        &:hover i {
+            color: #007bff;
+        }
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+
+        .brand-image {
+            max-height: $brand-image-max-height;
+        }
+    }
+
+    .btn-outline-secondary {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        padding: 0.5rem 1rem;
+    }
+
+    // Media Queries for Responsive Design
+    @media (max-width: 768px) {
+        .navbar-toggler {
+            font-size: 1.5rem;
+        }
+
+        .btn-outline-secondary {
+            display: none; // Hide the "Access Hierarchy" button on smaller screens
+        }
+    }
+}
+
+// Collapsible Content
+.collapse.navbar-collapse {
+    @media (max-width: 768px) {
+        ul.navbar-nav {
+            text-align: center;
+            flex-direction: column;
+            margin-top: 0.5rem;
+
+            .nav-item {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}

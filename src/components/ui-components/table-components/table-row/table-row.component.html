@@ -1,0 +1,37 @@
+<ng-container *ngFor="let column of dataFlowContrpller.properties.columnsConfigs">
+    <ng-container *ngIf="!column.childHeaderConfigs">
+
+        <td class="align-middle"
+            [ngClass]="{'text-nowrap': column.rowWrapText, 'position-relative': !column.isStickyColumn, 'position-sticky':column.isStickyColumn, 'text-center':column.isStatus}"
+            [ngStyle]="column.columnStyles">
+
+            <table-row-cell [column]="column" [configs]="column?.rowCellConfigs"
+                [dataObject]="dataObject"></table-row-cell>
+        </td>
+    </ng-container>
+
+
+
+    <ng-container *ngIf="column.childHeaderConfigs">
+        <ng-container *ngFor="let child of column.childHeaderConfigs">
+            <td class="align-middle">
+                <table-row-cell [column]="child" [configs]="child?.rowCellConfigs"
+                    [dataObject]="dataObject"></table-row-cell>
+            </td>
+
+
+        </ng-container>
+    </ng-container>
+
+</ng-container>
+
+
+
+<ng-container *ngIf="properties?.isCollapsible">
+    <tr>
+        <td [attr.colspan]="dataFlowContrpller.properties.columnsConfigs.length">
+            <h1> Hello World </h1>
+            <!-- need to add dynamic view heare  -->
+        </td>
+    </tr>
+</ng-container>

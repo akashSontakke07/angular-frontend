@@ -1,0 +1,110 @@
+{
+  "name": "TableComponent",
+  "customConfig": [
+    {
+      "showpagination": true,
+      "columnsConfigs": [
+        {
+          "columnName": "Proposal_no",
+          "placeholder": "Proposal no",
+          "iconClass": "ri-search-line",
+          "showSearchFilter": true,
+          "showToolTip": false,
+          "wrapText": false,
+          "columnStyles": {
+            "min-width": "80px"
+          }
+        },
+        {
+          "columnName": "UCIC",
+          "placeholder": "Main Header",
+          "iconClass": "ri-search-line",
+          "showSearchFilter": true,
+          "showToolTip": false,
+          "wrapText": false,
+          "columnStyles": {
+            "min-width": "80px"
+          },
+          "childHeaderConfigs": [
+            {
+              "columnName": "UCIC",
+              "placeholder": "UCIC",
+              "iconClass": "ri-search-line",
+              "showSearchFilter": true,
+              "showToolTip": false,
+              "wrapText": false,
+              "columnStyles": {
+                "min-width": "80px"
+              },
+              "childHeaderConfigs": []
+            },
+            {
+              "columnName": "EMI_Date",
+              "placeholder": "EMI Date",
+              "showSearchFilter": true,
+              "showToolTip": true,
+              "wrapText": false,
+              "columnStyles": {
+                "min-width": "70px",
+                "z-index": "7"
+              },
+              "isStickyColumn": true
+            }
+          ]
+        },
+        {
+          "columnName": "Status",
+          "placeholder": "Status",
+          "iconClass": "ri-search-line",
+          "showSearchFilter": true,
+          "showToolTip": true,
+          "wrapText": true,
+          "columnStyles": {
+            "min-width": "70px",
+            "z-index": "7"
+          },
+          "isStickyColumn": true
+        },
+        {
+          "columnName": "UCIC",
+          "placeholder": "Main Header - 2",
+          "iconClass": "ri-search-line",
+          "showSearchFilter": true,
+          "showToolTip": false,
+          "wrapText": false,
+          "columnStyles": {
+            "min-width": "80px"
+          },
+          "childHeaderConfigs": [
+            {
+              "columnName": "Opening_Bucket",
+              "placeholder": "Opening Bucket",
+              "iconClass": "ri-search-line",
+              "showSearchFilter": true,
+              "showToolTip": true,
+              "wrapText": false,
+              "columnStyles": {
+                "min-width": "70px",
+                "z-index": "7"
+              },
+              "isStickyColumn": true
+            },
+            {
+              "columnName": "Overdue_Amount",
+              "placeholder": "EMI Amount",
+              "iconClass": "ri-search-line",
+              "showSearchFilter": true,
+              "showToolTip": true,
+              "wrapText": false,
+              "columnStyles": {
+                "min-width": "70px",
+                "z-index": "7"
+              },
+              "isStickyColumn": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

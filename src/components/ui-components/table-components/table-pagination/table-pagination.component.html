@@ -1,0 +1,64 @@
+<div class="tb-foot-shadow position-sticky bottom-0 table-footer z-9 h-56px d-grid">
+    <div class="row mx-0">
+        <!-- <div class="col d-flex align-items-center">
+            <button  class="btn btn-tertiary" (click)="showMapView()"><i class="ri-map-2-line align-middle fs-5"></i> Go back to Map View</button>
+        </div> -->
+        <div class="col d-flex align-items-center justify-content-start">
+           <ngb-pagination  class="d-inline-block" 
+           [collectionSize]="20" 
+           [pageSize]="4"
+           [maxSize]="3"
+                [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+                >
+                <ng-template ngbPaginationPrevious>« {{ 'prev'}} </ng-template>
+                <ng-template ngbPaginationNext> {{ 'next' }} »</ng-template>
+                <ng-template ngbPaginationFirst>«« {{ 'first' }} </ng-template>
+                <ng-template ngbPaginationLast> {{ 'last' }} »»</ng-template>
+            </ngb-pagination>
+        </div>
+        <!-- removed legends for now -->
+        <!-- <div class="col d-flex flex-wrap align-items-center">
+            <div class="status-legends px-2 py-1">
+                <span class="legend created mx-1"></span>
+                <span class="legend-text">Created</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend assigned mx-1"></span>
+                <span class="legend-text">assigned</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend initiated mx-1"></span>
+                <span class="legend-text">initated</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend transit mx-1"></span>
+                <span class="legend-text">transit</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend started mx-1"></span>
+                <span class="legend-text">started</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend cancelled mx-1"></span>
+                <span class="legend-text">cancelled</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend rescheduled mx-1"></span>
+                <span class="legend-text">rescheduled</span>
+            </div>
+            <div class="status-legends px-2 py-1">
+                <span class="legend finished mx-1"></span>
+                <span class="legend-text">finished</span>
+            </div>
+        </div> -->
+
+
+        <!-- ngbDropdown ngbDropdownMenu aria-labelledby="createNewMap"  *ngIf = "downloadConfigs.types.length == 1" nngbDropdownItem -->
+
+        <!-- <div class="col d-flex justify-content-end align-items-center" *ngIf="downloadConfigs && downloadConfigs.payload && downloadConfigs.payload.config">
+            <button class="btn btn-primary float-end" (click)="openDownloadData()"> {{ 'downloadData'| languageTranslation:null }} </button>
+        </div> -->
+
+
+    </div>
+</div>

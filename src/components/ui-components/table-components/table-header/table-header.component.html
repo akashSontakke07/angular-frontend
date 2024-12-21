@@ -1,0 +1,21 @@
+<tr>
+    <ng-container *ngFor="let columnData of dataFlowContrpller.properties.columnsConfigs">
+        <!-- Handle headers with no child headers -->
+        <th [attr.rowspan]="columnData?.childHeaderConfigs ? null : 2"
+            [attr.colspan]="columnData?.childHeaderConfigs?.length || 1" class="align-middle">
+            <table-header-cell [ColumnConfig]="columnData" [configs]="columnData?.headerCellConfigs"
+                [dataFlowContrpller]="dataFlowContrpller"></table-header-cell>
+        </th>
+    </ng-container>
+</tr>
+<tr>
+    <ng-container *ngFor="let columnData of dataFlowContrpller.properties.columnsConfigs">
+        <!-- Handle child headers if present -->
+        <ng-container *ngIf="columnData.childHeaderConfigs">
+            <th *ngFor="let child of columnData.childHeaderConfigs">
+                <table-header-cell [ColumnConfig]="child" [configs]="child?.headerCellConfigs"
+                    [dataFlowContrpller]="dataFlowContrpller"></table-header-cell>
+            </th>
+        </ng-container>
+    </ng-container>
+</tr>

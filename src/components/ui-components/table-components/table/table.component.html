@@ -1,0 +1,27 @@
+<div class="table-responsive" style="max-height: 100vh;">
+
+    <table class="table table-hover">
+
+        <thead table-header [attr.rowspan]="2" class="sticky-top top-n1px tb-head-shadow table-dark"
+            [configs]="properties.headerConfigs" [dataFlowContrpller]="dataFlowContrpller">
+        </thead>
+
+        <tbody>
+            <ng-container *ngFor="let rowData of dataFlowContrpller.dataReceived">
+                <tr table-row [dataObject]="rowData" [configs]="properties.rowConfigs"
+                    [dataFlowContrpller]="dataFlowContrpller">
+                </tr>
+            </ng-container>
+        </tbody>
+
+        <tfoot *ngIf="properties.showFooter" table-footer></tfoot>
+
+    </table>
+    
+    <ng-container>
+        <table-pagination *ngIf="properties.showpagination" (tableFooterData)="setPaginationData($event)"
+            [configs]="properties.paginationConfigs" [dataFlowContrpller]="dataFlowContrpller">
+        </table-pagination>
+    </ng-container>
+
+</div>

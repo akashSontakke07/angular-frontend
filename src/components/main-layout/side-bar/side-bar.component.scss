@@ -1,0 +1,112 @@
+#menu-icon {
+    border-radius: 10px;
+    block-size: 40px;
+    inline-size: 40px;
+    line-height: 40px;
+    // font-size: var(--fontSz18);
+    background-color: #222c65;
+    // color: var(--lmnuclract, var(--lmnuclr, #dcdcdc)) !important;
+}
+
+
+
+#sidebar-menu-item {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+     transition: all 0.3s ease-out;
+    cursor: pointer;
+    inline-size: 100%;
+    color: white;
+}
+
+
+#menu-label {
+    font-size:10px;
+    line-height: 1.2;
+    -webkit-margin-before: 6px;
+    margin-block-start: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-inline-size: 100%;
+    padding: 0 2px;
+}
+
+
+
+#sidebar-menu {
+
+    list-style: none; /* Removes bullets */
+    margin: 0;        /* Removes default margin */
+    padding: 0; 
+
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+}
+
+
+
+.menu-item-content  {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    flex-direction: column;
+    justify-items: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    justify-content: center;
+}
+
+
+.menu-item-content:hover  {
+    #menu-icon {
+        border-radius: 10px;
+        block-size: 40px;
+        inline-size: 40px;
+        line-height: 40px;
+        background-color:  #ff7700;
+    }
+    #menu-label {
+        font-size:10px;
+        line-height: 1.2;
+        -webkit-margin-before: 6px;
+        margin-block-start: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-inline-size: 100%;
+        padding: 0 2px;
+    }
+}
+
+
+
+
+
+
+
+.hover-effect {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    transition: width 0.3s ease-in-out; /* Smooth transition */
+  }
+
