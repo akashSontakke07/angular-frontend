@@ -1,0 +1,7 @@
+<ng-container *ngIf="isVisible">
+    <i class="fs-18px20"></i>
+    <span class="align-top px-1" [ngbTooltip]="(properties && properties.toolTip) ? properties.toolTip : ''"
+      [disableTooltip]="!(properties?.toolTip)" *ngIf="properties?.label">
+      {{ properties?.label }}
+    </span>
+  </ng-container>
