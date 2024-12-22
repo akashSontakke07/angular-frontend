@@ -1,0 +1,367 @@
+{
+  "name": "DynamicUiBuilderComponent",
+  "components": [
+    {
+      "name": "LabelComponent",
+      "description": "This is a ChipLabel Component",
+      "version": "v1",
+      "customConfig": [
+        {
+          "staticLabel": "Detailed Loan Cases Report - Filter View"
+        }
+      ]
+    },
+    {
+      "name": "SimpleButtonComponent",
+      "description": "This is a ChipLabel Component",
+      "version": "v1",
+      "customConfig": [
+        {
+          "label": "HTTP - Button"
+        }
+      ],
+      "eventsConfig": {
+        "configs": [
+          {
+            "eventNames": [
+              "onInit"
+            ],
+            "uiConfigs": {
+              "configs": [
+                {
+                  "elementConfigs": [
+                    {
+                      "addClasses": [
+                        {
+                          "htmlElementSearchConfigs": [
+                            {
+                              "searchName": "i",
+                              "type": "tag"
+                            }
+                          ],
+                          "values": [
+                            {
+                              "key": "",
+                              "value": "ri-draggable"
+                            }
+                          ]
+                        },
+                        {
+                          "htmlElementSearchConfigs": [
+                            {
+                              "searchName": "",
+                              "type": "self"
+                            }
+                          ],
+                          "values": [
+                            {
+                              "key": "",
+                              "value": "btn"
+                            },
+                            {
+                              "key": "",
+                              "value": "btn-primary"
+                            },
+                            {
+                              "key": "",
+                              "value": "m-1"
+                            },
+                            {
+                              "key": "",
+                              "value": "px-1"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "eventNames": [
+              "click"
+            ],
+            "httpConfigs": {
+              "configs": [
+                {
+                  "httpRequestBodyConfigs": {
+                    "payloadVariableSearchConfig": [
+                      {
+                        "value": [
+                          {
+                            "entityKindName": "JobStatusDetails",
+                            "fieldSearchInputs": [
+                              {
+                                "fieldName": "jobState",
+                                "operator": "EQUAL",
+                                "value": null,
+                                "dataType": "String"
+                              },
+                              {
+                                "fieldName": "type",
+                                "operator": "EQUAL",
+                                "value": "SETTLEMENT",
+                                "dataType": "String"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "httpRequestPreProcessing": {
+                    "serialize": true
+                  },
+                  "httpRequestHeadersConfigs": {
+                    "payloadVariableSearchConfig": []
+                  },
+                  "httpErrorResponseConfigs": {},
+                  "httpSuccessResponseConfigs": {},
+                  "httpApiConfig": {
+                    "requestId": "versionlistDashboard",
+                    "dataProviderName": "internalApi",
+                    "type": "",
+                    "version": "v1",
+                    "internalApiConfigs": {
+                      "apiMethod": "coreApi",
+                      "version": "v1",
+                      "methodName": "example"
+                    }
+                  }
+                }
+              ],
+              "promiseType": "sync"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "NavTabsComponent",
+      "id": "offcanvas",
+      "description": "This is Nav Tabs Component in Panel",
+      "version": "v1",
+      "customConfig": [
+        {
+          "defaultActiveTab": "waiverDetails",
+          "destroyTabOnHide": true,
+          "tabs": [
+            {
+              "label": "Waiver Details",
+              "config": {
+                "name": "DynamicUiBuilderComponent",
+                "id": "test",
+                "components": [
+                  {
+                    "name": "LabelComponent",
+                    "description": "This is a ChipLabel Component",
+                    "version": "v1",
+                    "customConfig": [
+                      {
+                        "staticLabel": "Detailed Loan Cases Report - Filter View"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "label": "test",
+              "config": {
+                "name": "DynamicUiBuilderComponent",
+                "id": "test1",
+                "components": [
+                  {
+                    "name": "LabelComponent",
+                    "description": "This is a ChipLabel Component",
+                    "version": "v1",
+                    "customConfig": [
+                      {
+                        "staticLabel": "Detailed Loan Cases Report - Filter View"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CollapseComponent",
+      "id": "",
+      "description": "Main Base Container",
+      "version": "v1",
+      "customConfig": [
+        {
+          "buttonConfig": [
+            {
+              "name": "SimpleButtonComponent",
+              "id": "",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "HTTP - Button"
+                }
+              ]
+            }
+          ],
+          "headConfig": [
+            {
+              "name": "DynamicUiBuilderComponent",
+              "components": [
+                {
+                  "name": "LabelComponent",
+                  "description": "This is a ChipLabel Component",
+                  "version": "v1",
+                  "customConfig": [
+                    {
+                      "staticLabel": "header"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "bodyConfig": [
+            {
+              "name": "DynamicUiBuilderComponent",
+              "components": [
+                {
+                  "name": "LabelComponent",
+                  "description": "This is a ChipLabel Component",
+                  "version": "v1",
+                  "customConfig": [
+                    {
+                      "staticLabel": "Detailed Loan Cases Report - Filter View"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DropdownButtonComponent",
+      "id": "",
+      "description": "This is a DropDown Component",
+      "version": "v1",
+      "customConfig": [
+        {
+          "button": [
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "test dropdown"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "Publish Version"
+                }
+              ]
+            },
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "Create Version"
+                }
+              ]
+            },
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "Delete"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DropdownButtonComponent",
+      "id": "",
+      "description": "This is a DropDown Component",
+      "version": "v1",
+      "customConfig": [
+        {
+          "button": [
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "test dropdown"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "Publish Version"
+                }
+              ]
+            },
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "Create Version"
+                }
+              ]
+            },
+            {
+              "name": "SimpleButtonComponent",
+              "id": "checkBoxIem",
+              "description": "This is a SimpleButtonComponent",
+              "version": "v1",
+              "customConfig": [
+                {
+                  "label": "Delete"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 

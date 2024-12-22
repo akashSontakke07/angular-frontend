@@ -1,3 +1,4 @@
+import { Routes } from "@angular/router";
 import _ from "lodash";
 import { checkIsNotNull, getLocalStorageJson } from "src/ts-files/common-utils";
 
@@ -19,6 +20,17 @@ export class NavigationService {
             NavigationService.instance = new NavigationService();
         }
         return NavigationService.instance;
+    }
+
+
+    getBaseRoute() {
+        const mainRoute: Routes = [
+            {
+                path: '',
+                loadChildren: () => import('src/components/main-layout/main/main.routes').then((x) => x.MAIN_ROUTES),
+            }
+        ];
+        return mainRoute
     }
 
     getParentSidebar(): any[] {

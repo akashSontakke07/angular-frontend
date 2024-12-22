@@ -3,6 +3,7 @@ import { HeaderComponent } from "../header/header.component";
 import { SideBarComponent } from "../side-bar/side-bar.component";
 import { FooterComponent } from "../footer/footer.component";
 import { TableComponent } from "../../ui-components/table-components/table/table.component";
+import { LocalRunComponent } from "../../helper-components/local-run/local-run.component";
 
 
 
@@ -10,7 +11,7 @@ import { TableComponent } from "../../ui-components/table-components/table/table
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [HeaderComponent, SideBarComponent, FooterComponent, TableComponent],
+  imports: [HeaderComponent, SideBarComponent, FooterComponent, TableComponent, LocalRunComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })

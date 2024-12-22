@@ -261,10 +261,7 @@ export interface UIConfigs extends CommonProcessingObject {
 }
 export interface UIConfig extends MetaData {
     operationsSequence?: string[]
-    elementConfigs?: HTMLElementConfigs,
-}
-export interface HTMLElementConfigs {
-    configs: HTMLElementConfig[]
+    elementConfigs?: HTMLElementConfig[],
 }
 
 export interface HTMLElementConfig extends CommonProcessingObject {
@@ -1026,9 +1023,9 @@ function filterApplicableUIOperations(operationSequence: string[], config: UICon
 
 /************************************************* Process Element Configs Starts *************************************************/
 
-function processHtmlElementConfigs(configs: HTMLElementConfigs, thisObject: any, data: any, element: any) {
-    if (checkIsNotNull(configs) && checkIsNotNull(configs.configs)) {
-        for (let config of configs.configs) {
+function processHtmlElementConfigs(configs: HTMLElementConfig[], thisObject: any, data: any, element: any) {
+    if (checkIsNotEmpty(configs)) {
+        for (let config of configs) {
             if (config.preProcessingConfigs && checkIsNotNull(config.preProcessingConfigs)) {
                 processActionEventConfig(config.preProcessingConfigs, thisObject, data, element);
             }
