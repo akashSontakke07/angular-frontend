@@ -5,7 +5,7 @@ import { ComponentNames } from 'src/constants/constant-enums';
 import { checkIsNotNull } from 'src/ts-files/common-utils';
 import { NgIf } from '@angular/common';
 @Component({
-  selector: 'app-simple-button',
+  selector: 'simple-button',
   standalone: true,
   imports: [NgIf, NgbTooltipModule],
   templateUrl: './simple-button.component.html',
