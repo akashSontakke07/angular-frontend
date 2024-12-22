@@ -1,0 +1,25 @@
+<ng-container *ngIf="isVisible">
+    <ul ngbNav #nav="ngbNav" [activeId]="activeTab?activeTab:0" class="nav-tabs"
+        [destroyOnHide]="(properties.destroyTabOnHide)?properties.destroyTabOnHide:false"
+        (navChange)="switchTab($event)">
+
+        <li [ngbNavItem]="tab.config.id" *ngFor="let tab of tabs,let i = index"
+            [ngStyle]="{'display':tab.hidden?'none':'block'}">
+
+            <button ngbNavLink *ngIf="tab.label">{{tab.label}}</button>
+
+            <ng-template ngbNavContent>
+                <ui-builder [configs]="tab.config"></ui-builder>
+            </ng-template>
+
+        </li>
+
+        <!-- not a part of nav tabs  -->
+        <li class="nav-item ms-auto" role="presentation" *ngIf="properties.presentation">
+            <ui-builder [configs]="properties.presentationConfigs"></ui-builder>
+        </li>
+    </ul>
+    
+    <div [ngbNavOutlet]="nav" class=""></div>
+
+    <ng-container>
