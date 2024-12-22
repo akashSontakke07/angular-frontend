@@ -1,0 +1,17 @@
+<ng-container>
+    <!-- Header section with toggle button -->
+    <div class="position-relative d-flex align-items-center justify-content-between border-bottom">
+        <!-- Dynamic load of header content -->
+        <ui-builder [configs]="properties.headConfig[0]" class="d-block float-start w-100"></ui-builder>
+
+        <!-- Button to toggle collapse -->
+        <simple-button (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
+            [configs]="properties.buttonConfig[0]" aria-expanded="false">
+        </simple-button>
+    </div>
+
+    <!-- Collapsible body content -->
+    <ui-builder class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" [animation]="true"
+        [horizontal]="false" [configs]="properties.bodyConfig[0]">
+    </ui-builder>
+</ng-container>
