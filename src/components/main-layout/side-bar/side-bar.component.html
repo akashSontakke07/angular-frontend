@@ -1,42 +1,16 @@
-<div style="padding-top: 10px;" (mouseover)="isHovered = true" (mouseleave)="isHovered = false" >
-    <nav>
-      <ul id="sidebar-menu" >
-        <li id="sidebar-menu-item" *ngFor="let sidebar of showSidebarMenuList; let i = index" (click)="doRouting(sidebar)">
-
-            <div id="menu-item-content" class="menu-item-content">
-
-      
-      
-                    <i id="menu-icon" [class]="sidebar.iconCss" ></i>
-
-      
-                  <span id="menu-label">{{ sidebar.menuDisplayName }}</span>
-            </div>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  
-
-
-  <!-- <div (mouseover)="isHovered = true" (mouseleave)="isHovered = false">
-    <nav>
-      <ul id="sidebar-menu">
-        <li
-          id="sidebar-menu-item"
-          *ngFor="let menuItem of showSidebarMenuList; let index = index"
-          (click)="doRouting(menuItem)"
-        >
-          <div id="menu-item-content">
-            <i
-              id="menu-icon"
-              [class]="menuItem.iconCss"
-              [ngClass]="{ 'hover-effect': isHovered }"
-            ></i>
-            <span id="menu-label">{{ menuItem.displayName }}</span>
-          </div>
-        </li>
-      </ul>
-    </nav>
-  </div> -->
-  
+<div id="sidebar-scrollable">
+  <nav>
+    <ul id="sidebar-menu">
+      <li
+        id="sidebar-menu-item"
+        *ngFor="let sidebar of showSidebarMenuList; let i = index"
+        (click)="doRouting(sidebar)"
+      >
+        <div id="menu-item-content" class="menu-item-content">
+          <i id="menu-icon" [class]="sidebar.iconCss"></i>
+          <span id="menu-label">{{ sidebar.menuDisplayName }}</span>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>

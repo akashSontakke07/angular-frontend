@@ -1,112 +1,122 @@
-#menu-icon {
-    border-radius: 10px;
-    block-size: 40px;
-    inline-size: 40px;
-    line-height: 40px;
-    // font-size: var(--fontSz18);
-    background-color: #222c65;
-    // color: var(--lmnuclract, var(--lmnuclr, #dcdcdc)) !important;
+/* General Styling */
+#sidebar-scrollable {
+    flex-grow: 1; 
+    overflow-y: auto; 
+    max-height: calc(100vh - 50px); 
+    padding: 10px;
+    background-color: #1c2655; /* Optional background for contrast */
+
+
+    -ms-overflow-style: none;  /* Hide scrollbar for Internet Explorer */
+    scrollbar-width: none;  
 }
 
+/* Sidebar Menu */
+#sidebar-menu {
+    list-style: none; 
+    margin: 0; 
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; 
+}
 
-
+/* Sidebar Menu Item */
 #sidebar-menu-item {
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-     transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
     cursor: pointer;
-    inline-size: 100%;
-    color: white;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    background-color: transparent;
+    border-radius: 8px;
 }
 
+#sidebar-menu-item:hover {
+    background-color: rgba(255, 119, 0, 0.1); /* Add hover effect */
+    color: #ff7700; /* Change text color on hover */
+}
 
+/* Menu Item Content */
+.menu-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5px;
+    padding-bottom: 5px ;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Icon Styling */
+#menu-icon {
+    border-radius: 10%; 
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #222c65; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; /* Use CSS variables or fixed font size */
+    color: #dcdcdc;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#menu-icon:hover {
+    background-color: #ff7700; 
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+/* Label Styling */
 #menu-label {
-    font-size:10px;
+    font-size: 12px; 
     line-height: 1.2;
-    -webkit-margin-before: 6px;
-    margin-block-start: 6px;
+    margin-top: 6px; 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-inline-size: 100%;
-    padding: 0 2px;
+    max-width: 100%; 
+    color: #c8c8c8; /* Default text color */
+    transition: color 0.3s;
 }
 
-
-
-#sidebar-menu {
-
-    list-style: none; /* Removes bullets */
-    margin: 0;        /* Removes default margin */
-    padding: 0; 
-
-    display: -webkit-flex;
-    display: -moz-box;
-    display: flex;
-    -webkit-align-items: center;
-    -moz-box-align: center;
-    align-items: center;
-    -webkit-flex-direction: column;
-    -moz-box-orient: vertical;
-    -moz-box-direction: normal;
-    flex-direction: column;
-    text-align: center;
-    gap: 14px;
+#menu-label:hover {
+    color: #ff7700; /* Text color change on hover */
 }
 
-
-
-.menu-item-content  {
-    display: -webkit-flex;
-    display: -moz-box;
-    display: flex;
-    -webkit-flex-direction: column;
-    -moz-box-orient: vertical;
-    -moz-box-direction: normal;
-    flex-direction: column;
-    justify-items: center;
-    -webkit-align-items: center;
-    -moz-box-align: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    -moz-box-pack: center;
-    justify-content: center;
+/* Hover Effect for Menu Item */
+.menu-item-content:hover #menu-icon {
+    background-color: #ff7700; 
 }
 
+.menu-item-content:hover #menu-label {
+    color: #ff7700; 
+}
 
-.menu-item-content:hover  {
-    #menu-icon {
-        border-radius: 10px;
-        block-size: 40px;
-        inline-size: 40px;
-        line-height: 40px;
-        background-color:  #ff7700;
-    }
+/* Responsive Design */
+@media (max-width: 768px) {
     #menu-label {
-        font-size:10px;
-        line-height: 1.2;
-        -webkit-margin-before: 6px;
-        margin-block-start: 6px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-inline-size: 100%;
-        padding: 0 2px;
+        font-size: 10px;
+    }
+    #menu-icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    #menu-label {
+        font-size: 8px;
+        display: none; /* Hide labels for small screens */
+    }
+    #menu-icon {
+        width: 30px;
+        height: 30px;
     }
 }
 
 
 
-
-
-
-
-.hover-effect {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    transition: width 0.3s ease-in-out; /* Smooth transition */
-  }
 

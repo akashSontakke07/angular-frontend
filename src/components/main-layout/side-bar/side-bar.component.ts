@@ -82,6 +82,44 @@ export class SideBarComponent {
     iconCss: 'ri-settings-line',
     isCollapse: true
   },
+
+
+  {
+    menuDisplayName: 'Home ',
+    stateName: '/dashboard',
+    iconCss: 'ri-home-9-line',
+    isCollapse: false
+  },
+  {
+    menuDisplayName: 'Map Dashboard',
+    stateName: '/dashboard',
+    iconCss: 'ri-earth-line',
+    isCollapse: false
+  },
+  {
+    menuDisplayName: 'service',
+    stateName: '/dashboard',
+    iconCss: "ri-service-line",
+    isCollapse: false
+  },
+  {
+    menuDisplayName: 'Reports',
+    stateName: '/reports',
+    iconCss: 'ri-line-chart-line',
+    isCollapse: true
+  },
+  {
+    menuDisplayName: 'Leave Tracker',
+    stateName: '/settings',
+    iconCss: 'ri-umbrella-line',
+    isCollapse: true
+  },
+  {
+    menuDisplayName: 'Settings',
+    stateName: '/settings',
+    iconCss: 'ri-settings-line',
+    isCollapse: true
+  },
   {
     menuDisplayName: 'More',
     stateName: '/help',

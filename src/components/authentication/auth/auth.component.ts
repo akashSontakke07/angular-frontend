@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { setLocalStorageJson } from 'src/ts-files/common-utils';
 
 @Component({
   selector: 'app-auth',
@@ -9,6 +10,9 @@ import { Component } from '@angular/core';
 })
 export class AuthComponent {
 
-  
 
+constructor(){
+    setLocalStorageJson("userDetails", { test: "test" }); // TODO : if you want to local run
+  
+}
 }
