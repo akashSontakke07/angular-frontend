@@ -8,9 +8,9 @@
 
             <tbody>
                 <!-- If data is received -->
-                <ng-container *ngIf="dataFlowContrpller.dataReceived.length">
+                <ng-container *ngIf="dataFlowContrpller.dataToPresent">
 
-                    <ng-container *ngFor="let rowData of dataFlowContrpller.dataReceived">
+                    <ng-container *ngFor="let rowData of dataFlowContrpller.dataToPresent">
                         <!-- TableRowComponent -->
                         <tr table-row [dataObject]="rowData" [configs]="properties.rowConfigs" [dataFlowContrpller]="dataFlowContrpller"></tr>
                     </ng-container>
@@ -24,7 +24,7 @@
 
 
         <!-- If no data is received -->
-        <ng-container *ngIf="!dataFlowContrpller.dataReceived.length">
+        <ng-container *ngIf="!dataFlowContrpller.dataToPresent.length">
             <div class="zpl_Emptydata">
                 <div>
                     <div class="zpl_emptimg zp_nd_nodata"></div>
@@ -40,8 +40,7 @@
     <ng-container >
         <!-- TablePaginationComponent -->
         <table-pagination class="sticky-bottom" *ngIf="properties.showpagination"
-            [configs]="properties.paginationConfigs" [dataFlowContrpller]="dataFlowContrpller"
-            (tableFooterData)="setPaginationData($event)"></table-pagination>
+            [configs]="properties.paginationConfigs" [dataFlowContrpller]="dataFlowContrpller"></table-pagination>
 
     </ng-container>
 

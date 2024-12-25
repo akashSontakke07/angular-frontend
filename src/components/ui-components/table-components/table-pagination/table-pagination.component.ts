@@ -1,10 +1,9 @@
-import { Component, input, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TableDataFlowContrpller } from '../table/table.component';
 import { ComponentConfigs } from 'src/ts-files/component-config-processing';
 import { NgbPagination, NgbPaginationPrevious, NgbPaginationNext, NgbPaginationFirst, NgbPaginationLast } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { checkIsNotEmpty, checkIsNotNull } from 'src/ts-files/common-utils';
 
 
 @Component({
@@ -20,27 +19,15 @@ export class TablePaginationComponent implements OnInit {
 	@Input() dataFlowContrpller!: TableDataFlowContrpller;
 	properties!: TablePaginationComponentInterface;
 
-	test = [{ size: 4 }, { size: 6 }, { size: 10 }];
 
 	ngOnInit(): void {
 		this.properties = this.dataFlowContrpller.paginationData;
+		this.onPageChange();
 	}
 
-	// emitData() {
-	// 	this.prepareOutputObject();
-	// 	this.dataObject = Object.assign(this.dataObject, { tableFooterData: this.tableFooterDataObject })
-	// 	this.tableFooterData.emit(this.tableFooterDataObject);
-	// }
-
-	setPagination() {
-		this.properties.pageSize = checkIsNotNull(this.properties.pageSize) ? this.properties.pageSize : 10;
-		this.properties.page = this.properties.page;
-		if (checkIsNotEmpty(this.dataFlowContrpller?.dataReceived)) {
-			this.properties.collectionSize = this.dataFlowContrpller.dataReceived.length;
-		}
-		// this.emitData();
+	onPageChange() {
+		this.dataFlowContrpller.onPageChange(this.properties);
 	}
-
 
 }
 
@@ -49,9 +36,9 @@ export class TablePaginationComponent implements OnInit {
 export interface TablePaginationComponentInterface {
 	pageSize: number,
 	page: number,
-	collectionSize?: number,
-	showRowSelector: boolean,
+	collectionSize: number,
 	boundaryLinks: boolean,
+	showRowSelector?: boolean,
 	rowSelectorConfigs?: RowSelectorConfigs[]
 }
 

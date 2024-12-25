@@ -1,13 +1,15 @@
 <div class="pagination-controls">
 
     <ngb-pagination  style="margin-top: 16px;" 
-        [collectionSize]="70"
+        [collectionSize]="properties.collectionSize"
         [pageSize]="properties.pageSize"
         [(page)]="properties.page"
         [maxSize]="3"
         [rotate]="true"
         [ellipses]="false"
-        [boundaryLinks]="false">
+        [boundaryLinks]="false"
+        (pageChange)="onPageChange()">
+        
         <ng-template ngbPaginationPrevious>« {{ 'Prev' }} </ng-template>
         <ng-template ngbPaginationNext> {{ 'Next' }} »</ng-template>
         <ng-template ngbPaginationFirst>«« {{ 'First' }} </ng-template>
@@ -20,12 +22,11 @@
 
 
 
-    <div class="col-auto col-xxl-2 d-flex justify-content-end align-items-center ms-auto" *ngIf="properties && true">
+    <div *ngIf="properties.showRowSelector" class="col-auto col-xxl-2 d-flex justify-content-end align-items-center ms-auto">
         <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="properties.pageSize"
-            (change)="setPagination()">
-            <option *ngFor="let count of test" [ngValue]="count.size">{{count.size}} {{ 'itemsPerPage' }} </option>
+            (change)="onPageChange()">
+            <option *ngFor="let count of properties.rowSelectorConfigs" [ngValue]="count.size">{{count.size}} {{ 'Items / Page' }} </option>
         </select>
-
     </div>
 
 

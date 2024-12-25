@@ -39,7 +39,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   data() {
     setTimeout(() => {
       this.setData(tableExampleData)
-    }, 4000);
+    }, 0);
   }
 
   constructor() {
@@ -63,7 +63,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   setProperties() {
     this.properties = getPropertiesCore(this.configs!, this);
     this.childConfigs = getChildConfigsCore(this.configs!);
-    this.dataFlowContrpller.setproperties(this.properties);
+    this.dataFlowContrpller.tableComponenProperties =this.properties;
   }
 
   /**
@@ -77,7 +77,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
    * @returns void
    */
   setData(data: any) {
-    this.dataFlowContrpller.setDataReceived(data);
+    this.dataFlowContrpller.dataReceived = data;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -95,14 +95,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('Callback executed', this);
     this.changeDetectorRef.detectChanges();
   };
-
-
-
-
-  setPaginationData(data: any) {
-    this.dataFlowContrpller.setPaginationData(data);
-    this.dataFlowContrpller.setPagination();
-  }
 
 
 
@@ -170,10 +162,20 @@ export interface ColumnsConfig {
  */
 export class TableDataFlowContrpller {
   // VIMP :- Do not directly manipulate properties directly; always use the provided functions.
-  dataReceived: any[] = [];
-  paginationData: TablePaginationComponentInterface = { pageSize: 10, page: 1, showRowSelector: false, boundaryLinks: false, };
-  dataToPresent: any;
-  properties !: TableComponentInterface;
+
+
+
+  private _dataReceived: any[] = [];
+  private _dataToPresent: any[] = [];
+  private _paginationData: TablePaginationComponentInterface = { 
+    pageSize: 10, 
+    page: 1, 
+    showRowSelector: false, 
+    boundaryLinks: false, 
+    collectionSize:0
+  };
+  private _tableComponenProperties!: TableComponentInterface;
+
   private callback: () => void;
 
   constructor(callback: () => void) {
@@ -186,28 +188,71 @@ export class TableDataFlowContrpller {
     } catch { }
   }
 
-  setproperties(data: TableComponentInterface) {
-    this.properties = data;
+  onPageChange(data: TablePaginationComponentInterface = this._paginationData) {
+    onPageChange(data, this);
   }
 
-  setDataReceived(data: any[]) {
-    this.dataReceived = data;
-  }
-
-
-  setPaginationData(data: any) {
-    this.paginationData = data;
-  }
-
-  setPagination() {
-    setPagination(this);
-  }
 
   onSort(sortableHeaders: any) {
     onSort(sortableHeaders, this);
   }
+
+
+  
+  // Getter and Setter for dataReceived
+  public get dataReceived(): any[] {
+    return this._dataReceived;
+  }
+  public set dataReceived(value: any[]) {
+      this._dataReceived = value;
+      this._paginationData.collectionSize = this._dataReceived.length;
+      this._paginationData.page = 1;
+
+      if(!this.tableComponenProperties.showpagination) {
+        this._paginationData.pageSize = this._dataReceived.length;
+      }
+      this.onPageChange();
+  }
+
+  // Getter and Setter for paginationData
+  public get paginationData(): TablePaginationComponentInterface {
+    return this._paginationData;
+  }
+  public set paginationData(value: TablePaginationComponentInterface) {
+    if (value && typeof value.pageSize === 'number' && typeof value.page === 'number') {
+      this._paginationData = value;
+    } else {
+      throw new Error("Invalid paginationData");
+    }
+  }
+
+  // Getter and Setter for dataToPresent
+  public get dataToPresent(): any {
+    return this._dataToPresent;
+  }
+  public set dataToPresent(value: any) {
+    this._dataToPresent = value;
+  }
+
+  // Getter and Setter for properties
+  public get tableComponenProperties(): TableComponentInterface {
+    return this._tableComponenProperties;
+  }
+  public set tableComponenProperties(value: TableComponentInterface) {
+    if (value) {
+      this._tableComponenProperties = value;
+    } else {
+      throw new Error("Invalid properties value");
+    }
+  }
+
 }
 
+
+function onPageChange(data: TablePaginationComponentInterface, thisObject: TableDataFlowContrpller){
+thisObject.paginationData = data;
+setPagination(thisObject);
+}
 
 /*
  * this function simple set pagination for table data 

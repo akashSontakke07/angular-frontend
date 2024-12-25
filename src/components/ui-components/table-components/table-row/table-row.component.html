@@ -1,4 +1,4 @@
-<ng-container *ngFor="let column of dataFlowContrpller.properties.columnsConfigs">
+<ng-container *ngFor="let column of dataFlowContrpller.tableComponenProperties.columnsConfigs">
     <ng-container *ngIf="!column.childHeaderConfigs">
 
         <td class="align-middle"
@@ -29,7 +29,7 @@
 
 <ng-container *ngIf="properties?.isCollapsible">
     <tr>
-        <td [attr.colspan]="dataFlowContrpller.properties.columnsConfigs.length">
+        <td [attr.colspan]="dataFlowContrpller.tableComponenProperties.columnsConfigs.length">
             <h1> Hello World </h1>
             <!-- need to add dynamic view heare  -->
         </td>
