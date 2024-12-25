@@ -1,27 +1,48 @@
-<div class="table-responsive" style="max-height: 100vh;">
+<div>
 
-    <table class="table table-hover">
+    <div class="table-responsive" style="height: calc(-290px + 100vh);">
+        <table class="table table-hover">
 
-        <thead table-header [attr.rowspan]="2" class="sticky-top top-n1px tb-head-shadow table-dark"
-            [configs]="properties.headerConfigs" [dataFlowContrpller]="dataFlowContrpller">
-        </thead>
+             <!-- TableHeaderComponent -->
+            <thead table-header [configs]="properties.headerConfigs" [dataFlowContrpller]="dataFlowContrpller" class="sticky-top top-n1px tb-head-shadow"></thead>
 
-        <tbody>
-            <ng-container *ngFor="let rowData of dataFlowContrpller.dataReceived">
-                <tr table-row [dataObject]="rowData" [configs]="properties.rowConfigs"
-                    [dataFlowContrpller]="dataFlowContrpller">
-                </tr>
-            </ng-container>
-        </tbody>
+            <tbody>
+                <!-- If data is received -->
+                <ng-container *ngIf="dataFlowContrpller.dataReceived.length">
 
-        <tfoot *ngIf="properties.showFooter" table-footer></tfoot>
+                    <ng-container *ngFor="let rowData of dataFlowContrpller.dataReceived">
+                        <!-- TableRowComponent -->
+                        <tr table-row [dataObject]="rowData" [configs]="properties.rowConfigs" [dataFlowContrpller]="dataFlowContrpller"></tr>
+                    </ng-container>
 
-    </table>
-    
-    <ng-container>
-        <table-pagination *ngIf="properties.showpagination" (tableFooterData)="setPaginationData($event)"
-            [configs]="properties.paginationConfigs" [dataFlowContrpller]="dataFlowContrpller">
-        </table-pagination>
+                </ng-container>
+            </tbody>
+            <!-- TableRowComponent TODO : Need to implement-->
+            <tfoot *ngIf="properties.showFooter" table-footer></tfoot>
+
+        </table>
+
+
+        <!-- If no data is received -->
+        <ng-container *ngIf="!dataFlowContrpller.dataReceived.length">
+            <div class="zpl_Emptydata">
+                <div>
+                    <div class="zpl_emptimg zp_nd_nodata"></div>
+                    <h4>No Data Found</h4>
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+
+
+
+    <ng-container >
+        <!-- TablePaginationComponent -->
+        <table-pagination class="sticky-bottom" *ngIf="properties.showpagination"
+            [configs]="properties.paginationConfigs" [dataFlowContrpller]="dataFlowContrpller"
+            (tableFooterData)="setPaginationData($event)"></table-pagination>
+
     </ng-container>
 
 </div>

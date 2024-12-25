@@ -1,0 +1,30 @@
+/* Styling for empty data container */
+.zpl_Emptydata {
+    // max-width: 500px;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    // border: 1px solid #e9ecef;
+    // border-radius: 5px;
+    // background-color: #f8f9fa;
+}
+
+.zpl_emptimg {
+    width: 240px;
+    height: 170px;
+    margin: 0 auto 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.zp_nd_nodata {
+    background-image: url(../../../../assets/bee-svg/travelling-bee.svg);
+}
+
+.top-n1px {
+  top: -0.063rem !important;
+}
+.tb-head-shadow {
+  box-shadow: 0 2px 4px -1px rgb(0, 0, 0) !important;
+}

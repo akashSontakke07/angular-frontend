@@ -1,35 +1,60 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, input, Input, OnInit } from '@angular/core';
 import { TableDataFlowContrpller } from '../table/table.component';
 import { ComponentConfigs } from 'src/ts-files/component-config-processing';
 import { NgbPagination, NgbPaginationPrevious, NgbPaginationNext, NgbPaginationFirst, NgbPaginationLast } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-// const FILTER_PAG_REGEX = /[^0-9]/g;
+import { checkIsNotEmpty, checkIsNotNull } from 'src/ts-files/common-utils';
 
 
 @Component({
-  selector: 'table-pagination',
-  standalone: true,
-  imports: [NgIf, NgFor, NgbPagination, NgbPaginationPrevious, NgbPaginationNext, NgbPaginationFirst, NgbPaginationLast, FormsModule],
-  templateUrl: './table-pagination.component.html',
-  styleUrl: './table-pagination.component.scss'
+	selector: 'table-pagination',
+	standalone: true,
+	imports: [NgIf, NgFor, NgbPagination, NgbPaginationPrevious, NgbPaginationNext, NgbPaginationFirst, NgbPaginationLast, FormsModule],
+	templateUrl: './table-pagination.component.html',
+	styleUrl: './table-pagination.component.scss'
 })
-export class TablePaginationComponent {
-  @Input() configs: ComponentConfigs | undefined;
-  @Input() dataFlowContrpller!: TableDataFlowContrpller;
+export class TablePaginationComponent implements OnInit {
 
-  page = 4;
+	@Input() configs: ComponentConfigs | undefined;
+	@Input() dataFlowContrpller!: TableDataFlowContrpller;
+	properties!: TablePaginationComponentInterface;
 
-	getPageSymbol(current: number) {
-		return ['A', 'B', 'C', 'D', 'E', 'F', 'G'][current - 1];
+	test = [{ size: 4 }, { size: 6 }, { size: 10 }];
+
+	ngOnInit(): void {
+		this.properties = this.dataFlowContrpller.paginationData;
 	}
 
-	selectPage(page: string) {
-		this.page = parseInt(page, 10) || 1;
+	// emitData() {
+	// 	this.prepareOutputObject();
+	// 	this.dataObject = Object.assign(this.dataObject, { tableFooterData: this.tableFooterDataObject })
+	// 	this.tableFooterData.emit(this.tableFooterDataObject);
+	// }
+
+	setPagination() {
+		this.properties.pageSize = checkIsNotNull(this.properties.pageSize) ? this.properties.pageSize : 10;
+		this.properties.page = this.properties.page;
+		if (checkIsNotEmpty(this.dataFlowContrpller?.dataReceived)) {
+			this.properties.collectionSize = this.dataFlowContrpller.dataReceived.length;
+		}
+		// this.emitData();
 	}
 
-	formatInput(input: HTMLInputElement) {
-		input.value = input.value.replace(/[^0-9]/g, '');
-	}
+
+}
+
+
+
+export interface TablePaginationComponentInterface {
+	pageSize: number,
+	page: number,
+	collectionSize?: number,
+	showRowSelector: boolean,
+	boundaryLinks: boolean,
+	rowSelectorConfigs?: RowSelectorConfigs[]
+}
+
+interface RowSelectorConfigs {
+	size: number
 }

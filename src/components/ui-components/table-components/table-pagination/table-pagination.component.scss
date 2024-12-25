@@ -1,0 +1,10 @@
+.pagination-controls {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-inline: 10px; /* Padding on start and end (left and right) */
+    border-top: 1px solid #ddd; /* Separator from the table */
+    box-shadow: 0 -2px 4px -1px rgba(0, 0, 0) !important; /* Shadow on bottom */
+
+ 
+}

@@ -3,7 +3,7 @@ import { TableHeaderComponent } from "../table-header/table-header.component";
 import { NgFor, NgIf } from '@angular/common';
 import { TableRowComponent } from "../table-row/table-row.component";
 import { TableFooterComponent } from "../table-footer/table-footer.component";
-import { TablePaginationComponent } from "../table-pagination/table-pagination.component";
+import { TablePaginationComponent, TablePaginationComponentInterface } from "../table-pagination/table-pagination.component";
 import { ComponentConfigs, destroyComponentCore, executeAfterViewInitConfigsCore, getChildConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
 import { ComponentNames } from 'src/constants/constant-enums';
 import _ from "lodash";
@@ -38,8 +38,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   // Remove this once testing is ove
   data() {
     setTimeout(() => {
-      // this.setData(tableExampleData)
-    },4000);
+      this.setData(tableExampleData)
+    }, 4000);
   }
 
   constructor() {
@@ -118,16 +118,16 @@ interface TableComponentInterface {
   showpagination: boolean;
   showFooter: boolean;
 
-  rowConfigs?:ComponentConfigs;
-  headerConfigs?:ComponentConfigs;
-  footerConfigs?:ComponentConfigs;
+  rowConfigs?: ComponentConfigs;
+  headerConfigs?: ComponentConfigs;
+  footerConfigs?: ComponentConfigs;
   paginationConfigs?: ComponentConfigs;
 }
 
 export interface ColumnsConfig {
   columnName?: string,
   placeholder?: string,
-  childHeaderConfigs ?:ColumnsConfig[], 
+  childHeaderConfigs?: ColumnsConfig[],
   headerCellConfigs?: ComponentConfigs,
   rowCellConfigs?: ComponentConfigs,
 
@@ -170,8 +170,8 @@ export interface ColumnsConfig {
  */
 export class TableDataFlowContrpller {
   // VIMP :- Do not directly manipulate properties directly; always use the provided functions.
-  dataReceived: any;
-  paginationData: any;
+  dataReceived: any[] = [];
+  paginationData: TablePaginationComponentInterface = { pageSize: 10, page: 1, showRowSelector: false, boundaryLinks: false, };
   dataToPresent: any;
   properties !: TableComponentInterface;
   private callback: () => void;
@@ -190,7 +190,7 @@ export class TableDataFlowContrpller {
     this.properties = data;
   }
 
-  setDataReceived(data: any) {
+  setDataReceived(data: any[]) {
     this.dataReceived = data;
   }
 
@@ -215,10 +215,10 @@ export class TableDataFlowContrpller {
 function setPagination(thisObject: TableDataFlowContrpller) {
   try {
     thisObject.dataToPresent = thisObject.dataReceived.slice(
-      (thisObject.paginationData.rowConfig.page - 1) * thisObject.paginationData.rowConfig.pageSize,
-      (thisObject.paginationData.rowConfig.page - 1) * thisObject.paginationData.rowConfig.pageSize + thisObject.paginationData.rowConfig.pageSize
+      (thisObject.paginationData.page - 1) * thisObject.paginationData.pageSize,
+      (thisObject.paginationData.page - 1) * thisObject.paginationData.pageSize + thisObject.paginationData.pageSize
     );
-    thisObject.paginationData.rowConfig.collectionSize = thisObject.dataReceived.length;
+    thisObject.paginationData.collectionSize = thisObject.dataReceived.length;
   } catch {
     thisObject.dataToPresent = thisObject.dataReceived
   }

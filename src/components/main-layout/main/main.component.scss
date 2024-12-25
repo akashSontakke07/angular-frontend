@@ -8,7 +8,7 @@ $hover-bg: #22004f;
     min-height: 100vh;
     display: grid;
     grid-template-columns: 70px 1fr 50px;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 50px calc(100vh - 50px);
     grid-template-areas:
         "header header header"
         "sidebar main footer";
@@ -46,10 +46,9 @@ aside:hover {
 
 main {
     grid-area: main;
-    overflow: hidden;
+    overflow: auto;
     border-top-right-radius: 0.5cm;
-    background-color: $primary-bg;
-    padding: 1rem;
+    // background-color: $primary-bg;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
