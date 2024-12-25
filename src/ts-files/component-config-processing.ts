@@ -30,7 +30,6 @@ export function getChildConfigsCore(configs: ComponentConfigs): Record<string, C
     return getChildConfigs(configs)
 }
 
-
 /*************** Ends call this method from OnInit for every component ***************/
 
 /*************** Starts call this method from ngAfterViewInit for every component ***************/
@@ -43,16 +42,21 @@ export function executeAfterViewInitConfigsCore(configs: ComponentConfigs, compo
 
 /*************** Starts call this method from OnDestroy for every component ***************/
 
-export function executeActionEventsCore(configs: ActionEventConfigs, eventName: ActionEventNames, thisObject: any, element: any, data: any) {
-    return executeActionEvents(configs, eventName, thisObject, element, data);
-}
-
 export function destroyComponentCore(configs: ComponentConfigs, componentName: ComponentNames, thisObject: any, element: any) {
     destroyComponent(configs, componentName, thisObject, element)
 }
 
 /*************** Ends call this method from OnDestroy for every component ***************/
 
+/*************** Starts Imp functions ***************/
+
+export function executeActionEventsCore(configs: ActionEventConfigs, eventName: ActionEventNames, thisObject: any, element: any, data: any = {}) {
+    return executeActionEvents(configs, eventName, thisObject, element, data);
+}
+
+export function executeActionEventsByNameCore(configs: ComponentConfigs, thisObject: any, element: any, eventName: any) {
+    executeActionEventsByName(configs, thisObject, element, eventName);
+}
 
 export function fetchDataRecursivelyCore(array: string[], object: any) {
     return fetchDataRecursively(array, object)
@@ -61,7 +65,7 @@ export function fetchDataRecursivelyCore(array: string[], object: any) {
 export function addComponentDynamicallyCore(configs: ComponentConfigs[], thisObject: any, data?: any) {
     addComponentDynamically(configs, thisObject, data);
 }
-
+/*************** Ends Imp functions ***************/
 
 /**************************************************************************************************************************************************************************
  *                                                               ------  All Publicly accessible methods Ends  ------
@@ -462,6 +466,37 @@ function getEventListener(thisObject: any): string {
 /************************************************************************************************************************************************
  *                                                                  ActionEvents Code Starts
 *************************************************************************************************************************************************/
+
+
+/**
+ * Executes a custom event based on the provided event name.
+ * 
+ * @author Akash Sontakke
+ * @date 25/12/2024
+ * 
+ * @param {ComponentConfigs} configs - The configuration object for the component.
+ * @param {any} thisObject - The `this` reference of the component.
+ * @param {any} element - The `elementRef.nativeElement` of the component.
+ * @param {string | object} eventName - The event to execute. Can be:
+ *   - A string representing the event name.
+ *   - An object containing event data, with the event name as the `data` property.
+ * 
+ * @example
+ * // Execute an event using an object or a string
+ * executeCustomEventByName(configs, thisObject, element, { data: 'onHover' });
+ * executeCustomEventByName(configs, thisObject, element, 'onHover');
+ * 
+ * @throws {Error} Logs errors or warnings if the event name is invalid or not found.
+ */
+
+function executeActionEventsByName(configs: ComponentConfigs, thisObject: any, element: any, eventName: any) {
+    try {
+        if (checkIsNotNull(eventName.data)) eventName = eventName.data;
+        executeActionEventsCore(configs.eventsConfig!, eventName, thisObject, element);
+    } catch (error: any) {
+        console.error(`[ContainerComponent] Error in executeCustomEventByName: Config ID: ${configs?.id || 'N/A'} - ${error}`);
+    }
+}
 
 function executeActionEvents(configs: ActionEventConfigs, eventName: ActionEventNames, thisObject: any, element: any, data: any = {}) {
     if (checkIsNotNull(configs) && checkIsNotNull(configs.configs)) {
