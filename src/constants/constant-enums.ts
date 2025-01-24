@@ -40,15 +40,19 @@ export enum DependencNames {
 
 
 export enum ActionEventNames {
+    onClick = "onClick",
+    change = "change",
+    onChange = "onChange",
+    onFocus = "onFocus",
+    onFocusOut = "onFocusOut",
+    // Custom events
     onInit = "onInit",
     afterViewInit = "afterViewInit",
     onDestroy = "onDestroy",
-    onChange = "onChange",
-    onClick = "onClick",
-    change = "change",
-    onFocus = "onFocus",
-    onFocusOut = "onFocusOut",
     onAccessHierarchyChange = "onAccessHierarchyChange",
+    // Form events
+    onFormChange = "onFormChange" ,
+    onFormSubmit = "onFormSubmit",
 }
 
 export enum RetrievalSources {
