@@ -28,7 +28,7 @@ export class LabelComponent implements IComponent, OnInit, AfterViewInit, OnDest
   }
 
   ngAfterViewInit(): void {
-    executeAfterViewInitConfigsCore(this.configs!, ComponentNames.NavTabsComponent, this, this.elementRef.nativeElement);
+    executeAfterViewInitConfigsCore(this.configs!, ComponentNames.LabelComponent, this, this.elementRef.nativeElement);
   }
 
   getComponentConfigs() {
