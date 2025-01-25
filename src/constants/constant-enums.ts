@@ -17,9 +17,11 @@ export enum ComponentNames {
     TableHeaderCellComponent = "TableHeaderCellComponent",
 
     // form-components
+    WizardFormComponent = "WizardFormComponent",
     FormComponent = "FormComponent",
     FormSectionComponent = "FormSectionComponent",
     SelectComponent = " SelectComponent",
+    InputBoxComponent = "InputBoxComponent",
 
 }
 
@@ -51,7 +53,7 @@ export enum ActionEventNames {
     onDestroy = "onDestroy",
     onAccessHierarchyChange = "onAccessHierarchyChange",
     // Form events
-    onFormChange = "onFormChange" ,
+    onFormChange = "onFormChange",
     onFormSubmit = "onFormSubmit",
 }
 

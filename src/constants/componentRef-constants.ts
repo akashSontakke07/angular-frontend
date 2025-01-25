@@ -65,6 +65,42 @@ export const COMPONENT_REF: Record<any, () => Promise<Type<any> | null>> = {
             throw (error);
         }
     },
+
+    [ComponentNames.FormComponent]: async () => {
+        try {
+            const module = await import("src/components/ui-components/form-components/form/form.component");
+            return module.FormComponent;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    [ComponentNames.WizardFormComponent]: async () => {
+        try {
+            const module = await import("src/components/ui-components/form-components/wizard-form/wizard-form.component");
+            return module.WizardFormComponent;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    [ComponentNames.FormSectionComponent]: async () => {
+        try {
+            const module = await import("src/components/ui-components/form-components/form-section/form-section.component");
+            return module.FormSectionComponent;
+        } catch (error) {
+            throw (error);
+        }
+    },
+
+    [ComponentNames.InputBoxComponent]: async () => {
+        try {
+            const module = await import("src/components/ui-components/form-components/form-fields-component/input-box/input-box.component");
+            return module.InputBoxComponent;
+        } catch (error) {
+            throw (error);
+        }
+    },
     // [ComponentNames.DropdownButtonComponent]: async () => {
     //     try {
     //         const module = await import("src/components/ui-components/dropdown-button/dropdown-button.component");

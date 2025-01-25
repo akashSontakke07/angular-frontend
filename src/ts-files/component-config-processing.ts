@@ -93,14 +93,19 @@ export interface IComponent {
 export interface ComponentConfigs {
     name: ComponentNames; // Name of the component
     id?: string; // Unique identifier for the component
-    type?: string; // Type of the component not in use
-    componentType?: string; // Specifies the type of component, such as "form", "map", etc., to categorize and handle it appropriately in the application.
+    type?: String; // Type of the component
+    componentType?: ComponentType; // Specifies the type of component, such as "form", "map", etc., to categorize and handle it appropriately in the application.
     version?: string; // Version of the component (for future use)
     description?: string; // Meta data for better readability of configs
+    metadata?: any;
     components?: ComponentConfigs[]; // Child components
     eventsConfig?: ActionEventConfigs; // Configuration for event registration
     customConfig?: any[]; // Custom configurations for different components
     loadChildren?: boolean; // To tell dynamic load do not load childs by default true
+}
+
+export enum ComponentType{
+    wizardSection = "wizardSection",
 }
 
 export interface MetaData {

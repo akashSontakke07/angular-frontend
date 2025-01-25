@@ -1,36 +1,32 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActionEventNames, ComponentNames } from 'src/constants/constant-enums';
-import { addComponentDynamicallyCore, ComponentConfigs, ComponentType, destroyComponentCore, executeActionEventsCore, executeAfterViewInitConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
-import { ComponentManagerService } from 'src/ts-services/component-manager-service';
-import { FormComponent } from '../form/form.component';
-import { checkIsNotNull } from 'src/ts-files/common-utils';
 import { NgIf } from '@angular/common';
-import _ from "lodash";
-import { WizardFormComponent } from '../wizard-form/wizard-form.component';
+import { Component, ElementRef, inject, Input } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActionEventNames, ComponentNames } from 'src/constants/constant-enums';
+import { checkIsNotNull } from 'src/ts-files/common-utils';
+import { addComponentDynamicallyCore, ComponentConfigs, destroyComponentCore, executeActionEventsCore, executeAfterViewInitConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
+import { ComponentManagerService } from 'src/ts-services/component-manager-service';
+import { FormComponent } from '../../form/form.component';
+import { FormSectionComponent } from '../../form-section/form-section.component';
+import { WizardFormComponent } from '../../wizard-form/wizard-form.component';
 
 @Component({
-  selector: 'app-form-section',
+  selector: 'app-input-box',
   standalone: true,
   imports: [NgIf, FormsModule, ReactiveFormsModule],
-  templateUrl: './form-section.component.html',
-  styleUrl: './form-section.component.scss'
+  templateUrl: './input-box.component.html',
+  styleUrl: './input-box.component.scss'
 })
-export class FormSectionComponent {
-
-  @ViewChild("dynamicContainer", { read: ViewContainerRef, static: false }) insertPlace!: ViewContainerRef;
+export class InputBoxComponent {
+  insertPlaceBackup: any;
   elementRef: ElementRef = inject(ElementRef);
-  changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   @Input() configs!: ComponentConfigs;
   @Input() dataObject: any;
-  properties!: FormSectionComponentInterface;
+  properties!: InputBoxComponentInterface;
   // Declare a boolean variable to track visibility
   isVisible: boolean = true;
 
-  formController: FormGroup = new FormGroup({})
-
-  constructor(private resolver: ComponentFactoryResolver) { }
+  formController: FormControl = new FormControl();
 
   /************************************** Anguler life cycle hooks Starts **************************************/
   ngOnInit(): void {
@@ -38,23 +34,21 @@ export class FormSectionComponent {
   }
 
   ngAfterViewInit(): void {
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
-    executeAfterViewInitConfigsCore(this.configs!, ComponentNames.FormSectionComponent, this, this.elementRef.nativeElement);
+    executeAfterViewInitConfigsCore(this.configs!, ComponentNames.InputBoxComponent, this, this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {
-    destroyComponentCore(this.configs!, ComponentNames.FormSectionComponent, this, this.elementRef.nativeElement);
+    destroyComponentCore(this.configs!, ComponentNames.InputBoxComponent, this, this.elementRef.nativeElement);
   }
   /************************************** Anguler life cycle hooks Ends **************************************/
 
   getComponentConfigs() {
     this.setProperties();
-    this.configs = initializeComponentCore(this.configs!, ComponentNames.FormSectionComponent, this, this.elementRef.nativeElement, null);
+    this.configs = initializeComponentCore(this.configs!, ComponentNames.InputBoxComponent, this, this.elementRef.nativeElement, null);
   }
 
   setProperties() {
     this.properties = getPropertiesCore(this.configs!, this);
-    if(checkIsNotNull(this.properties.isVisible)) this.isVisible = this.properties.isVisible!;
     this.initializeReactiveForm();
   }
 
@@ -66,14 +60,6 @@ export class FormSectionComponent {
   // Show method to set visibility to true
   show(): void {
     this.isVisible = true;
-    this.changeDetectorRef.detectChanges();
-
-    // setTimeout is used here to ensure the change detection cycle completes before re-rendering the content.
-    // TODO: Find a better approach to handle this.
-    // setTimeout(() => {
-      this.insertPlace.clear();
-      addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
-    // }, 0);
   }
 
   // Hide method to set visibility to false
@@ -89,24 +75,23 @@ export class FormSectionComponent {
   /******************************************* Angular Reactive Form Code Starts *******************************************/
 
   initializeReactiveForm() {
-    this.registerFormGroup();
-    this.outsourceFormData();
+    this.registerFormControl()
   }
 
 
-  registerFormGroup(): void {
+  registerFormControl(): void {
     try {
       // Get the appropriate component name
       const componentName = this.getComponentName();
       // Get the form component instance
-      const formComponentInstance: FormComponent | WizardFormComponent = ComponentManagerService.getInstance().getLatestComponentByName(componentName);
-      // Register the form group control
+      const formComponentInstance: FormComponent | FormSectionComponent | WizardFormComponent = ComponentManagerService.getInstance().getLatestComponentByName(componentName);
       let existingControl: any = formComponentInstance.formController.get(this.configs.id!);
       // When re-rendering a wizard section, ensure existing form control values are automatically preserved and re-injected to maintain user input seamlessly.
       if (checkIsNotNull(existingControl)) {
         this.formController = existingControl;
         return;
       }
+      // Register the form group control
       formComponentInstance.formController.addControl(this.configs.id!, this.formController);
     } catch (error: any) {
       console.error("when FormSectionComponent registering to FormGroup where id :- " + this.configs.id)
@@ -115,6 +100,9 @@ export class FormSectionComponent {
 
   // Function to determine the component name based on properties
   private getComponentName(): string {
+    if (checkIsNotNull(this.properties?.FormSectionComponentId)) {
+      return `${ComponentNames.FormSectionComponent}_${this.properties.FormSectionComponentId}`;
+    }
     if (checkIsNotNull(this.properties?.formComponentId)) {
       return `${ComponentNames.FormComponent}_${this.properties.formComponentId}`;
     }
@@ -122,15 +110,6 @@ export class FormSectionComponent {
       return `${ComponentNames.WizardFormComponent}_${this.properties.WizardFormComponentId}`;
     }
     return ComponentNames.FormComponent;
-  }
-
-
-  outsourceFormData() {
-    if (this.properties?.outsourceFormData) {
-      this.formController.valueChanges.subscribe((formValues) => {
-        executeActionEventsCore(this.configs.eventsConfig!, ActionEventNames.onFormChange, this, this.elementRef.nativeElement, formValues);
-      });
-    }
   }
 
   /**
@@ -177,13 +156,28 @@ export class FormSectionComponent {
     return this.formController.valid;
   }
 
-  /******************************************* Angular Reactive Form Code Starts *******************************************/
+  disableformController() {
+    this.formController.disable()
+  }
 
+  enableformController() {
+    this.formController.enable()
+  }
 
+  addMandatory() {
+    this.formController.addValidators(Validators.required)
+  }
+
+  removeMandatory() {
+    this.formController.removeValidators(Validators.required)
+  }
 }
-interface FormSectionComponentInterface {
+
+interface InputBoxComponentInterface {
   formComponentId?: string; // VIMP must need to give
   WizardFormComponentId?: string;
-  outsourceFormData: boolean;
-  isVisible?: boolean;
+  FormSectionComponentId?: String;
+  outsourceFormData?: boolean;
+
+  placeholder?: string
 }

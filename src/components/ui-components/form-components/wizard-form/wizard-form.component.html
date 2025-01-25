@@ -1,1 +1,5 @@
-<p>wizard-form works!</p>
+<ng-container *ngIf="isVisible">
+    <form [formGroup]="formController" (ngSubmit)="onSubmit()">
+        <ng-container #dynamicContainer></ng-container>
+    </form>
+</ng-container>
