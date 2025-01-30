@@ -63,6 +63,14 @@ export class NavTabsComponent implements IComponent, OnInit, AfterViewInit, OnDe
     return this.tabs.some(tab => tab.config.id === tabId);
   }
 
+
+
+  // Do not use this function in a function call or manipulate it in TypeScript.
+  // This is required for use in the HTML template only.
+  trackById(item: any): any {
+    return item?.config?.id;
+  }
+
   switchTab(event: any): void {
     try {
       if (checkIsNotNull(event.nextId)) {
@@ -152,12 +160,14 @@ interface Tabs {
   label?: string;
   hidden?: boolean;
   config: ComponentConfigs;
+  buttonConfigs? : ComponentConfigs;
 }
 
 interface NavTabInterface {
-  defaultActiveTab: string;
-  destroyTabOnHide: boolean;
-  presentation: boolean;
-  presentationConfigs: ComponentConfigs;
+  defaultActiveTab?: string;
+  destroyTabOnHide?: boolean;
+  mainClass? :string;
+  presentationConfigs?: ComponentConfigs;
+  navButtonConfigs? : ComponentConfigs;
   tabs: Tabs[];
 }

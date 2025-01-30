@@ -30,12 +30,12 @@ export class UiBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    destroyComponentCore(this.configs!, ComponentNames.DynamicUiBuilderComponent, this, this.elementRef.nativeElement)
+    destroyComponentCore(this.configs!, ComponentNames.UiBuilderComponent, this, this.elementRef.nativeElement)
   }
 
 
   getComponentConfigs() {
-    this.configs = initializeComponentCore(this.configs!, ComponentNames.DynamicUiBuilderComponent, this, this.elementRef.nativeElement, null);
+    this.configs = initializeComponentCore(this.configs!, ComponentNames.UiBuilderComponent, this, this.elementRef.nativeElement, null);
   }
 
   clearView() {
@@ -60,7 +60,7 @@ export class UiBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
 
 }
 
-export let DynamicUiBuilderComponentConfigs = {
+export let uiBuilderComponentConfigs = {
   "name": "DynamicUiBuilderComponent",
   "eventsConfig": {
     "configs": [

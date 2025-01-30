@@ -1,5 +1,5 @@
 export enum ComponentNames {
-    DynamicUiBuilderComponent = "DynamicUiBuilderComponent",
+    UiBuilderComponent = "UiBuilderComponent",
 
     // ui-components 
     LabelComponent = "LabelComponent",

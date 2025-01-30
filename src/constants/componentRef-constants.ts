@@ -2,7 +2,7 @@ import { Type } from "@angular/core";
 import { ComponentNames } from "./constant-enums";
 
 export const COMPONENT_REF: Record<any, () => Promise<Type<any> | null>> = {
-    [ComponentNames.DynamicUiBuilderComponent]: async () => {
+    [ComponentNames.UiBuilderComponent]: async () => {
         try {
             const module = await import("src/components/ui-components/ui-builder/ui-builder.component");
             return module.UiBuilderComponent;

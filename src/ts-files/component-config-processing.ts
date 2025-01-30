@@ -280,6 +280,11 @@ export interface HTMLElementConfig extends CommonProcessingObject {
     removeStyles?: HTMLElementConfigValue[]
     addClasses?: HTMLElementConfigValue[],
     removeClasses?: HTMLElementConfigValue[],
+    injectCss?: InjectCss[],
+}
+
+interface InjectCss extends MetaData {
+    cssString: string;
 }
 
 export interface HTMLElementConfigValue extends CommonProcessingObject {
@@ -1098,6 +1103,9 @@ function executeHtmlElementConfigs(config: HTMLElementConfig, element: any, this
         if (checkIsNotEmpty(config.removeStyles)) {
             removeStyles(config, element, thisObject);
         }
+        if (checkIsNotEmpty(config.injectCss)) {
+            injectCss(config.injectCss!, element, thisObject);
+        }
     } catch (error: any) {
         console.error(error);
     }
@@ -1268,6 +1276,20 @@ function processRemoveStyles(elementList: any[], property: HTMLElementConfigValu
     }
 }
 /******** removeStyles ends ********/
+
+/******** injectCss Starts ********/
+
+function injectCss(configs: InjectCss[], element: any, thisObject: any) {
+    for (let config of configs) {
+        const styleElement = document.createElement("style");
+        styleElement.type = "text/css";
+        styleElement.appendChild(document.createTextNode(config.cssString));
+        document.head.appendChild(styleElement);
+    }
+}
+
+/******** injectCss Ends ********/
+
 
 function getElementList(property: HTMLElementConfigValue, element: any) {
     try {

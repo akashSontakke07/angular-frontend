@@ -1,25 +1,59 @@
 <ng-container *ngIf="isVisible">
-    <ul ngbNav #nav="ngbNav" [activeId]="activeTab?activeTab:0" class="nav-tabs"
-        [destroyOnHide]="(properties.destroyTabOnHide)?properties.destroyTabOnHide:false"
-        (navChange)="switchTab($event)">
+  
+  <ul 
+    ngbNav 
+    #nav="ngbNav"
+    [activeId]="activeTab || 0"
+    [destroyOnHide]="(properties.destroyTabOnHide) ? properties.destroyTabOnHide : false"
+    (navChange)="switchTab($event)"
 
-        <li [ngbNavItem]="tab.config.id" *ngFor="let tab of tabs,let i = index"
-            [ngStyle]="{'display':tab.hidden?'none':'block'}">
+    [ngClass]="properties.mainClass ? properties.mainClass : 'nav-tabs-bottom-blue'"
 
-            <button ngbNavLink *ngIf="tab.label">{{tab.label}}</button>
-
-            <ng-template ngbNavContent>
-                <ui-builder [configs]="tab.config"></ui-builder>
-            </ng-template>
-
-        </li>
-
-        <!-- not a part of nav tabs  -->
-        <li class="nav-item ms-auto" role="presentation" *ngIf="properties.presentation">
-            <ui-builder [configs]="properties.presentationConfigs"></ui-builder>
-        </li>
-    </ul>
+  >
     
-    <div [ngbNavOutlet]="nav" class=""></div>
+    <li 
+      *ngFor="let tab of tabs; let i = index; trackBy: trackById"
+      [ngbNavItem]="tab.config.id"
+      [ngStyle]="{ 'display': tab.hidden ? 'none' : 'block' }"
+    > 
+      <button ngbNavLink class="nav_tab_button">
+        
+        <ui-builder 
+          *ngIf="tab.buttonConfigs; else checkNavButtonConfigs"
+          [configs]="tab.config"
+          [dataObject]="tab"
+        ></ui-builder>
 
-    <ng-container>
+        <ng-template #checkNavButtonConfigs>
+          <ui-builder 
+            *ngIf="properties.navButtonConfigs; else showSimpleButton"
+            [configs]="properties.navButtonConfigs"
+            [dataObject]="tab"
+          ></ui-builder>
+        </ng-template>
+
+        <ng-template #showSimpleButton>
+          <span>{{ tab.label }}</span>
+        </ng-template>
+
+      </button>
+
+      <ng-template ngbNavContent>
+        <ui-builder [configs]="tab.config"></ui-builder>
+      </ng-template>
+      
+    </li>
+
+    <li 
+      class="nav_tab_presentation nav-item ms-auto" 
+      role="presentation" 
+      *ngIf="properties.presentationConfigs"
+    >
+      <ui-builder [configs]="properties.presentationConfigs"></ui-builder>
+    </li>
+
+  </ul>
+
+  <div class="nav_tab_body" [ngbNavOutlet]="nav"></div>
+
+</ng-container>
