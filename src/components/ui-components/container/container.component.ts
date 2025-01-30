@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { ComponentNames } from 'src/constants/constant-enums';
 import { addComponentDynamicallyCore, ComponentConfigs, destroyComponentCore, executeAfterViewInitConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
@@ -14,6 +14,7 @@ export class ContainerComponent {
   @ViewChild("dynamicContainer", { read: ViewContainerRef, static: false }) insertPlace!: ViewContainerRef;
 
   elementRef: ElementRef = inject(ElementRef);
+  changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   @Input() configs!: ComponentConfigs;
   @Input() dataObject: any;
@@ -47,9 +48,11 @@ export class ContainerComponent {
     this.insertPlace.clear();
   }
 
-  // Show method to set visibility to true
   show(): void {
     this.isVisible = true;
+    this.changeDetectorRef.detectChanges();
+    this.insertPlace.clear();
+    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
   }
 
   // Hide method to set visibility to false

@@ -67,13 +67,8 @@ export class FormSectionComponent {
   show(): void {
     this.isVisible = true;
     this.changeDetectorRef.detectChanges();
-
-    // setTimeout is used here to ensure the change detection cycle completes before re-rendering the content.
-    // TODO: Find a better approach to handle this.
-    // setTimeout(() => {
-      this.insertPlace.clear();
-      addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
-    // }, 0);
+    this.insertPlace.clear();
+    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
   }
 
   // Hide method to set visibility to false

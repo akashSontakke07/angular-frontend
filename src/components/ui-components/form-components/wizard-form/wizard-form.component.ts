@@ -153,7 +153,6 @@ export class WizardFormComponent {
 
   /******************************************* Angular Reactive Form Code Ends *******************************************/
   /******************************************* Wizard Form Logic Starts *******************************************/
-  // proggress bar
   getWizardFormSection() {
     let index = 0;
     this.configs.components?.forEach((component: ComponentConfigs) => {
