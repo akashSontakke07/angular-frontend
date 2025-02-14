@@ -1,4 +1,4 @@
-import { ActionEventNames, ComponentNames, DataTypes, PromiseType, RetrievalSources } from "src/constants/constant-enums";
+import { ActionEventNames, ActionEventScope, ComponentNames, DataTypes, EventListenerName, PromiseType, RetrievalSources } from "src/constants/constant-enums";
 import { checkIsNotEmpty, checkIsNotNull, checkObjectIsNotNull, getLocalStorageJson, LogLevel, logMessage, setLocalStorageJson } from "./common-utils";
 import { ComponentManagerService } from "src/ts-services/component-manager-service";
 import * as _ from 'lodash';
@@ -62,7 +62,7 @@ export function fetchDataRecursivelyCore(array: string[], object: any) {
     return fetchDataRecursively(array, object)
 }
 
-export function addComponentDynamicallyCore(configs: ComponentConfigs[], thisObject: any, data?: any) {
+export function addComponentDynamicallyCore(configs: ComponentConfigs, thisObject: any, data?: any) {
     addComponentDynamically(configs, thisObject, data);
 }
 /*************** Ends Imp functions ***************/
@@ -98,13 +98,18 @@ export interface ComponentConfigs {
     version?: string; // Version of the component (for future use)
     description?: string; // Meta data for better readability of configs
     metadata?: any;
+    commonConfig: CommonConfig;
     components?: ComponentConfigs[]; // Child components
     eventsConfig?: ActionEventConfigs; // Configuration for event registration
     customConfig?: any[]; // Custom configurations for different components
     loadChildren?: boolean; // To tell dynamic load do not load childs by default true
 }
 
-export enum ComponentType{
+export interface CommonConfig {
+    isVisible: boolean;
+}
+
+export enum ComponentType {
     wizardSection = "wizardSection",
 }
 
@@ -130,8 +135,9 @@ export interface ActionEventConfigs {
 
 export interface ActionEventConfig extends MetaData, CommonProcessingObject {
     eventNames: ActionEventNames[],
-    scope?: 'document' | 'element',
-    operationsSequence?: string[]
+    scope?: ActionEventScope,
+    eventListenerName?: EventListenerName,
+    operationsSequence?: string[],
     variableUpdateConfigs?: VariableUpdateConfigs,
     httpConfigs?: HttpConfig,
     uiConfigs?: UIConfigs,
@@ -427,46 +433,65 @@ function removeComponentFromDatasources(configs: ComponentConfigs, componentName
  *                                                         Register Dynamic Events Code Starts
 *************************************************************************************************************************************************/
 
-function registerEvents(configs: ActionEventConfigs, element: any, thisObject: any) {
-    const uniqueEvents = getUniqueEvents(configs);
-    if (checkIsNotNull(uniqueEvents)) {
-        uniqueEvents.forEach((event: ActionEventNames) => {
-            const applicableConfigs = configs.configs.filter(config => config.eventNames.includes(event));
-            applicableConfigs.forEach(config => {
-                const scopeElement = getEventScopeElement(config, event, element);
-                registerDynamicEvents(scopeElement, event, thisObject, config);
-            })
+/**
+ * 
+ * Dynamically registers event listeners based on configurations.
+ * Supports both element (component) and document scoped events.
+ * 
+ * ## Workflow:
+ * 1. Extracts unique events (`getUniqueEvents`).
+ * 2. Determines event scope (`getEventScopeElement`).
+ * 3. Registers listeners (`registerDynamicEvents`).
+ * 4. Handles events dynamically.
+ * 
+ * ** V-Important: **  
+ * - Event details are stored in the `dynamic_event` key within the component reference (`this`).
+ */
+
+function registerEvents(config: ActionEventConfigs, element: any, thisObject: any) {
+    try {
+        const uniqueEvents = getUniqueEventNames(config.configs);
+        uniqueEvents?.forEach(event => {
+            config.configs
+                .filter(config => config.eventNames.includes(event))
+                .forEach(config => registerDynamicEvents(getEventScopeElement(config.scope, element), event, thisObject, config));
         });
+    } catch (error) {
+        console.error("Error in registerEvents: ", error);
     }
 }
 
-function getUniqueEvents(configs: ActionEventConfigs): ActionEventNames[] {
-    if (!configs?.configs) return [];
-    const allEvents = configs.configs.flatMap(config => config.eventNames);
-    return [...new Set(allEvents)];
+function getUniqueEventNames(configs: ActionEventConfig[]): ActionEventNames[] {
+    if (!checkIsNotEmpty(configs)) {
+        return [];
+    }
+    const allEventNames = configs.flatMap(config => config.eventNames);
+    // Remove duplicates by converting to a Set
+    return [...new Set(allEventNames)];
 }
 
-function getEventScopeElement(configs: ActionEventConfig, eventName: string, defaultElement: any): any {
-    if (configs && configs.scope === 'document') {
-        return document;
-    } else {
-        return defaultElement;
+function getEventScopeElement(scope: ActionEventScope | undefined, defaultElement: any): any {
+    switch (scope) {
+        case ActionEventScope.document:
+            return document;
+        case ActionEventScope.element:
+            return defaultElement;
+        default:
+            return defaultElement;
     }
 }
 
 function registerDynamicEvents(element: any, eventName: string, thisObject: any, configs: ActionEventConfig) {
-    const eventListener = getEventListener(thisObject);
+    const eventListener: EventListenerName = getEventListener(configs);
     element[eventListener](eventName, (e: any) => {
-        thisObject["dynamic_event"] = e;
+        // Needed for key press detection or to pass custom event data.
+        thisObject["triggered_event"] = e;
         processActionEventConfig(configs, thisObject, element, e);
     }, false);
 }
 
-function getEventListener(thisObject: any): string {
-    if (checkIsNotNull(thisObject?.eventListener)) {
-        return thisObject.eventListener;
-    }
-    return "addEventListener"
+function getEventListener(config: ActionEventConfig): EventListenerName {
+    return config.eventListenerName || EventListenerName.addEventListener;
 }
 
 /************************************************************************************************************************************************
@@ -1325,10 +1350,13 @@ function getElementList(property: HTMLElementConfigValue, element: any) {
  *                                                           Add Component Dynamically Starts
 *************************************************************************************************************************************************/
 
-async function addComponentDynamically(configs: ComponentConfigs[], thisObject: any, data?: any) {
-    if (checkIsNotEmpty(configs)) {
-        for (const config of configs) {
-            await addComponent(config, thisObject, data);
+async function addComponentDynamically(config: ComponentConfigs, thisObject: any, data?: any) {
+    if (checkIsNotNull(config?.commonConfig?.isVisible) && !config.commonConfig.isVisible) {
+        return;
+    }
+    if (checkIsNotEmpty(config.components)) {
+        for (let component of config.components!) {
+            await addComponent(component, thisObject, data);
         }
     }
 }
@@ -1343,37 +1371,23 @@ async function addComponent(config: ComponentConfigs, thisObject: any, data?: an
 }
 
 function setParameters(componentRef: ComponentRef<any>, configs: any, data?: any) {
-    try {
         componentRef.setInput("configs", configs)
         if (checkIsNotNull(data)) componentRef.setInput("dataObject", data)
-    } catch (error: any) {
-        throw (error)
-    }
 }
 
 async function getComponentRef(config: ComponentConfigs, thisObject: any): Promise<ComponentRef<any>> {
-    try {
         // in component.ts => @ViewChild('dynamicContainer', { read: ViewContainerRef, static: true }) insertPlace!: ViewContainerRef; 
         // in component.html => <ng-container #dynamicContainer></ng-container> 
         let insertPlace: ViewContainerRef = thisObject.insertPlace;
         const component: any = await getComponentByName(config.name);
         let componentRef: ComponentRef<any> = insertPlace.createComponent(component!);
         return componentRef;
-    }
-    catch (error: any) {
-        throw (error);
-    }
 }
 
 async function getComponentByName(componentName: ComponentNames): Promise<any> {
-    try {
-        const loader = COMPONENT_REF[componentName as ComponentNames];
-        const component = await loader();
-        return component;
-    }
-    catch (error: any) {
-        throw (error);
-    }
+    const loader = COMPONENT_REF[componentName as ComponentNames];
+    const component = await loader();
+    return component;
 }
 
 /************************************************************************************************************************************************
