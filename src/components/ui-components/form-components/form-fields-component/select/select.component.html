@@ -1,0 +1,37 @@
+<ng-container>
+    <ng-select
+      [formControl]="formController"
+      [id]="formController"
+      [items]="items"
+      [multiple]="properties.isMultipleSelect"
+      [readonly]="properties.isReadOnlyField!"
+      [bindLabel]="properties.displayFieldName"
+      [bindValue]="properties.keyFieldName"
+      placeholder="{{ properties.placeholder}}"
+      [maxSelectedItems]="properties.maxSelectionLimit!"
+      [addTag]="properties.isAddTag"
+      [hideSelected]="properties.isHideSelected"
+      [dropdownPosition] = "properties.dropdownPosition"
+      addTagText="Create New"
+      groupBy="groupByKey"
+      [virtualScroll]="true">
+
+
+      <ng-template *ngIf="properties.customLabel" ng-label-tmp let-item="item">
+        <ui-builder [configs]="configs" [dataObject]="{thisObject: this, item: item }"></ui-builder>
+      </ng-template>
+      
+      <ng-template *ngIf="properties.customHeader" ng-header-tmp>
+        <ui-builder [configs]="configs" [dataObject]="{thisObject: this}"></ui-builder>
+      </ng-template>
+      
+      <ng-template *ngIf="properties.customOptions" ng-option-tmp let-item="item">
+        <ui-builder [configs]="configs" [dataObject]="{thisObject: this, item: item }"></ui-builder>
+      </ng-template>
+      
+      <ng-template *ngIf="properties.customFooter" ng-footer-tmp>
+        <ui-builder [configs]="configs" [dataObject]="{thisObject: this}"></ui-builder>
+      </ng-template>
+      
+  </ng-select>
+</ng-container>
