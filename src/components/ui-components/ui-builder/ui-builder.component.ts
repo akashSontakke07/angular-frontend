@@ -26,7 +26,7 @@ export class UiBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject)
+    addComponentDynamicallyCore(this.configs!, this, this.dataObject)
   }
 
   ngOnDestroy(): void {
