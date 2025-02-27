@@ -3,6 +3,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "SmartQuery": [
+        "./dist/smart-query"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
