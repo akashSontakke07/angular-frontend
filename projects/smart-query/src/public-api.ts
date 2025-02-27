@@ -4,3 +4,5 @@
 
 export * from './lib/smart-query.service';
 export * from './lib/smart-query.component';
+export * from './core/query-executor';
+

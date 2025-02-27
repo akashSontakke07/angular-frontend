@@ -5,8 +5,9 @@ import { checkIsNotNull, getLocalStorageJson } from 'src/ts-files/common-utils';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationService } from 'src/ts-services/navigation-service';
 import { MainComponent } from "../components/main-layout/main/main.component";
+import { QueryExecutor } from '@local/library/SmartQuery';
 
-
+// import {QueryExecutor} from "dist/smart-query"
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -25,7 +26,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    QueryExecutor
   }
+  
 
 }
 
