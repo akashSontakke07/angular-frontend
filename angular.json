@@ -136,6 +136,39 @@
           }
         }
       }
+    },
+    "smart-map": {
+      "projectType": "library",
+      "root": "projects/smart-map",
+      "sourceRoot": "projects/smart-map/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/smart-map/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/smart-map/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/smart-map/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/smart-map/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

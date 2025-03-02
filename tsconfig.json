@@ -6,6 +6,9 @@
     "paths": {
       "@local/library/SmartQuery": [
         "./dist/smart-query"
+      ],
+      "smart-map": [
+        "./dist/smart-map"
       ]
     },
     "baseUrl": "./",
