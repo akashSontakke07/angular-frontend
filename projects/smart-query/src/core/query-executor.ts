@@ -6,9 +6,16 @@ import { SqlJsQueryFactory } from "./factories/sqljs-query-factory";
 
 type TableData = Record<string, string | number>[]; // Support numbers as well
 type DatabaseSchema = Record<string, TableData>;
-type QueryType = "SQLJS" | "TS";
+export enum QueryType {
+    SQLJS = "SQLJS",
+}  
 
-
+interface ColumnFilter {
+    columnName: string;
+    constraints?: string;
+    mappedInputKey: string;
+    operationType : "and" | "or"
+  }
 
 
 export class QueryExecutor {
@@ -23,23 +30,30 @@ export class QueryExecutor {
     }
 
 
-    async initialize(databaseName: string, schema: DatabaseSchema): Promise<void> {
-        await this.adapter.initialize(databaseName, schema);
+    async createTable(databaseName: string, tableName: string, tableData: any[]): Promise<void> {
+        await this.adapter.createTable(databaseName, tableName, tableData);
     }
 
 
-    runQuery(databaseName: string, table: string, condition?: { column: string; value: string }): any[][] {
-        let query = this.queryBuilder.select(table);
-        if (condition) {
-            query = query.where(condition.column, condition.value);
-        }
-        return this.adapter.executeQuery(databaseName, query.build());
+    executeQuery(databaseName: string, queryString: string): any[] {
+        return this.adapter.executeQuery(databaseName, queryString);
     }
 
 
     close(databaseName: string): void {
         this.adapter.close(databaseName);
     }
+
+    buildQueryByFilters(tableName: string, inputData: any, filters: ColumnFilter[]): string {
+        this.queryBuilder.select(tableName);
+    
+        filters.forEach((filter, index) => {
+          const logicalOperator = index === 0 ? "AND" : filter.operationType.toUpperCase() as "AND" | "OR";
+          this.queryBuilder.where(filter.columnName, filter.constraints || "=", filter.mappedInputKey, logicalOperator);
+        });
+    
+        return this.queryBuilder.build();
+      }
 
 
     // Factory Method to return the correct Factory based on type

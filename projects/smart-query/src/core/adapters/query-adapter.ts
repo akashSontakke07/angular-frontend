@@ -1,5 +1,5 @@
 export interface QueryAdapter {
-    initialize(databaseName: string, schema: Record<string, any[]>): Promise<void>;
-    executeQuery(databaseName: string, query: string): any[][];
+    createTable(databaseName: string, tableName: string, tableData: any[]): Promise<void>;
+    executeQuery(databaseName: string, queryString: string): any[];
     close(databaseName: string): void;
 }
