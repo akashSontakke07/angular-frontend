@@ -36,7 +36,7 @@ export class WizardFormComponent {
   }
 
   ngAfterViewInit(): void {
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
+    addComponentDynamicallyCore(this.configs!, this, this.dataObject);
     executeAfterViewInitConfigsCore(this.configs!, ComponentNames.WizardFormComponent, this, this.elementRef.nativeElement);
   }
 
@@ -156,20 +156,17 @@ export class WizardFormComponent {
   getWizardFormSection() {
     let index = 0;
     this.configs.components?.forEach((component: ComponentConfigs) => {
-      if (checkIsNotNull(component.componentType) && component.componentType == ComponentType.wizardSection) {
-        let metaData: WizardFormSectionMetaData = { index: index };
-        component.metadata = metaData;
-        if (index == 0 && checkIsNotEmpty(component.customConfig) && component.customConfig) {
-          component.customConfig[0] = { ...component.customConfig[0], isVisible: true };
-        } else {
-          if (checkIsNotEmpty(component.customConfig) && component.customConfig)
-            component.customConfig[0] = { ...component.customConfig[0], isVisible: false };
-        }
+      if (component.componentType === ComponentType.wizardSection) {
+        component.metadata = { index };
+        // Handle visibility based on index
+        const isVisible = index === 0;
+        component.commonConfig = { ...component.commonConfig, isVisible: isVisible };
         this.wizardFormSectionList.push(component);
         index++;
       }
     });
   }
+
 
 
   next() {

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActionEventNames, ComponentNames } from 'src/constants/constant-enums';
-import { addComponentDynamicallyCore, ComponentConfigs, ComponentType, destroyComponentCore, executeActionEventsCore, executeAfterViewInitConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
+import { addComponentDynamicallyCore, CommonConfig, ComponentConfigs, ComponentType, destroyComponentCore, executeActionEventsCore, executeAfterViewInitConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
 import { ComponentManagerService } from 'src/ts-services/component-manager-service';
 import { FormComponent } from '../form/form.component';
 import { checkIsNotNull } from 'src/ts-files/common-utils';
@@ -26,7 +26,9 @@ export class FormSectionComponent {
   @Input() dataObject: any;
   properties!: FormSectionComponentInterface;
   // Declare a boolean variable to track visibility
-  isVisible: boolean = true;
+  commonConfig: CommonConfig = {
+    isVisible: true
+  }
 
   formController: FormGroup = new FormGroup({})
 
@@ -38,7 +40,7 @@ export class FormSectionComponent {
   }
 
   ngAfterViewInit(): void {
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
+    addComponentDynamicallyCore(this.configs!, this, this.dataObject);
     executeAfterViewInitConfigsCore(this.configs!, ComponentNames.FormSectionComponent, this, this.elementRef.nativeElement);
   }
 
@@ -48,14 +50,19 @@ export class FormSectionComponent {
   /************************************** Anguler life cycle hooks Ends **************************************/
 
   getComponentConfigs() {
+    this.setcommonConfig();
     this.setProperties();
     this.configs = initializeComponentCore(this.configs!, ComponentNames.FormSectionComponent, this, this.elementRef.nativeElement, null);
   }
 
   setProperties() {
     this.properties = getPropertiesCore(this.configs!, this);
-    if(checkIsNotNull(this.properties.isVisible)) this.isVisible = this.properties.isVisible!;
     this.initializeReactiveForm();
+  }
+
+  setcommonConfig() {
+    this.commonConfig = { ...this.commonConfig, ...this.configs.commonConfig };
+    this.configs.commonConfig = this.commonConfig
   }
 
   setData(data: any) {
@@ -65,20 +72,20 @@ export class FormSectionComponent {
 
   // Show method to set visibility to true
   show(): void {
-    this.isVisible = true;
+    this.commonConfig.isVisible = true;
     this.changeDetectorRef.detectChanges();
     this.insertPlace.clear();
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
+    addComponentDynamicallyCore(this.configs!, this, this.dataObject);
   }
 
   // Hide method to set visibility to false
   hide(): void {
-    this.isVisible = false;
+    this.commonConfig.isVisible = false;
   }
 
   // Toggle method to switch visibility state
   toggleVisibility(): void {
-    this.isVisible = !this.isVisible;
+    this.commonConfig.isVisible = !this.commonConfig.isVisible;
   }
 
   /******************************************* Angular Reactive Form Code Starts *******************************************/

@@ -13,7 +13,7 @@ import { ComponentConfigs, destroyComponentCore, executeAfterViewInitConfigsCore
 })
 export class LabelComponent implements IComponent, OnInit, AfterViewInit, OnDestroy {
 
-  elementRef : ElementRef = inject(ElementRef);
+  elementRef: ElementRef = inject(ElementRef);
 
   @Input() configs!: ComponentConfigs;
   @Input() dataObject: any;

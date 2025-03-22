@@ -1,0 +1,46 @@
+.custom-tab {
+    display: flex; 
+    flex-wrap: nowrap; 
+    border-bottom: 1px solid #e0e0e0;
+    background-color: black;
+    margin: 16px auto;
+    border-radius: 7px;
+    padding: 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; 
+}
+
+.custom-tab .nav-link {
+    flex: 0 0 auto; 
+    display: inline-block;
+    border: none;
+    background: transparent;
+    color: rgb(255, 253, 253);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0px 4px 10px rgba(45, 85, 165, 0.4);
+    background-color: #494949;
+    border-radius: 5px;
+    margin-right: 8px; 
+    white-space: nowrap; 
+}
+
+.custom-tab .nav-link.active {
+    font-weight: bold;
+    color: #1f1f1f;
+    background-color: #f7faff; 
+}
+
+
+/* Hide scrollbar but keep scrolling functionality */
+.custom-tab::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+.custom-tab {
+    -ms-overflow-style: none;  /* Hide scrollbar for Internet Explorer and Edge */
+    scrollbar-width: none;    /* Hide scrollbar for Firefox */
+}

@@ -4,6 +4,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@
 import { ActionEventNames, ComponentNames } from 'src/constants/constant-enums';
 import { checkIsNotNull } from 'src/ts-files/common-utils';
 import { addComponentDynamicallyCore, ComponentConfigs, destroyComponentCore, executeActionEventsCore, executeAfterViewInitConfigsCore, getPropertiesCore, initializeComponentCore } from 'src/ts-files/component-config-processing';
+import { FormStatus } from 'src/ts-files/form-config-processing';
 
 @Component({
   selector: 'app-form',
@@ -31,7 +32,7 @@ export class FormComponent {
   }
 
   ngAfterViewInit(): void {
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
+    addComponentDynamicallyCore(this.configs, this, this.dataObject);
     executeAfterViewInitConfigsCore(this.configs!, ComponentNames.FormComponent, this, this.elementRef.nativeElement);
   }
 
@@ -81,6 +82,18 @@ export class FormComponent {
         executeActionEventsCore(this.configs.eventsConfig!, ActionEventNames.onFormChange, this, this.elementRef.nativeElement, formValues);
       });
     }
+  }
+
+
+  isFormStatusChange : boolean = false;
+  onFormStatusChange() {
+    this.formController.statusChanges.subscribe(status => {
+      const newState = status !== FormStatus.VALID; // Disable if not valid
+      if (newState !== this.isFormStatusChange) {
+        this.isFormStatusChange = newState; // Update only if changed
+        executeActionEventsCore(this.configs.eventsConfig!, ActionEventNames.onFormStatusChanges, this, this.elementRef.nativeElement, this.formController.getRawValue());
+      }
+    });
   }
 
   /**

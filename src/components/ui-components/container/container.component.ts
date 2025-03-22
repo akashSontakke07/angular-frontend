@@ -27,7 +27,7 @@ export class ContainerComponent {
   }
 
   ngAfterViewInit(): void {
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
+    addComponentDynamicallyCore(this.configs!, this, this.dataObject);
     executeAfterViewInitConfigsCore(this.configs!, ComponentNames.NavTabsComponent, this, this.elementRef.nativeElement);
   }
 
@@ -52,7 +52,7 @@ export class ContainerComponent {
     this.isVisible = true;
     this.changeDetectorRef.detectChanges();
     this.insertPlace.clear();
-    addComponentDynamicallyCore(this.configs.components!, this, this.dataObject);
+    addComponentDynamicallyCore(this.configs, this, this.dataObject);
   }
 
   // Hide method to set visibility to false

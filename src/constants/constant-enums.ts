@@ -52,9 +52,21 @@ export enum ActionEventNames {
     afterViewInit = "afterViewInit",
     onDestroy = "onDestroy",
     onAccessHierarchyChange = "onAccessHierarchyChange",
-    // Form events
+
     onFormChange = "onFormChange",
+    onFormStatusChanges = "onFormStatusChanges",
     onFormSubmit = "onFormSubmit",
+
+}
+
+
+export enum EventListenerName {
+    addEventListener = "addEventListener"
+}
+
+export enum ActionEventScope {
+    document = 'document',
+    element = 'element',
 }
 
 export enum RetrievalSources {
